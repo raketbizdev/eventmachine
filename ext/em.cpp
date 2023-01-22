@@ -2098,7 +2098,7 @@ const uintptr_t EventMachine_t::WatchPid (int pid)
 	kqres = kevent(kqfd, &event, 1, NULL, 0, NULL);
 	if (kqres == -1) {
 		char errbuf[200];
-		sprintf(errbuf, "failed to register file watch descriptor with kqueue: %s", strerror(errno));
+		snprintf(errbuf, "failed to register file watch descriptor with kqueue: %s", strerror(errno));
 		throw std::runtime_error(errbuf);
 	}
 	Bindable_t* b = new Bindable_t();
@@ -2165,7 +2165,7 @@ const uintptr_t EventMachine_t::WatchFile (const char *fpath)
 
 	if (sres == -1) {
 		char errbuf[300];
-		sprintf(errbuf, "error registering file %s for watching: %s", fpath, strerror(errno));
+		snprintf(errbuf, "error registering file %s for watching: %s", fpath, strerror(errno));
 		throw std::runtime_error(errbuf);
 	}
 
@@ -2180,7 +2180,7 @@ const uintptr_t EventMachine_t::WatchFile (const char *fpath)
 			       IN_MODIFY | IN_DELETE_SELF | IN_MOVE_SELF | IN_CREATE | IN_DELETE | IN_MOVE) ;
 	if (wd == -1) {
 		char errbuf[300];
-		sprintf(errbuf, "failed to open file %s for registering with inotify: %s", fpath, strerror(errno));
+		snprintf(errbuf, "failed to open file %s for registering with inotify: %s", fpath, strerror(errno));
 		throw std::runtime_error(errbuf);
 	}
 	#endif
@@ -2193,7 +2193,7 @@ const uintptr_t EventMachine_t::WatchFile (const char *fpath)
 	wd = open(fpath, O_RDONLY);
 	if (wd == -1) {
 		char errbuf[300];
-		sprintf(errbuf, "failed to open file %s for registering with kqueue: %s", fpath, strerror(errno));
+		snprintf(errbuf, "failed to open file %s for registering with kqueue: %s", fpath, strerror(errno));
 		throw std::runtime_error(errbuf);
 	}
 	_RegisterKqueueFileEvent(wd);
@@ -2344,7 +2344,7 @@ void EventMachine_t::_RegisterKqueueFileEvent(int fd)
 	kqres = kevent(kqfd, &newevent, 1, NULL, 0, NULL);
 	if (kqres == -1) {
 		char errbuf[200];
-		sprintf(errbuf, "failed to register file watch descriptor with kqueue: %s", strerror(errno));
+		snprintf(errbuf, "failed to register file watch descriptor with kqueue: %s", strerror(errno));
 		close(fd);
 		throw std::runtime_error(errbuf);
 	}
